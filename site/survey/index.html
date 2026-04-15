@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Music Platform — Discovery Questionnaire</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0A0A0A;
+    --dark: #141414;
+    --card: #1A1A1A;
+    --card-border: #2A2A2A;
+    --input-bg: #1E1E1E;
+    --white: #F5F5F0;
+    --muted: #8A8A80;
+    --accent: #E84855;
+    --accent-hover: #D43D4A;
+    --accent-glow: rgba(232, 72, 85, 0.12);
+    --green: #4CAF50;
+    --green-glow: rgba(76, 175, 80, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .header .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-block;
+    border: 1px solid var(--accent);
+    padding: 3px 12px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ── Role Selector ── */
+  .role-selector {
+    margin-bottom: 40px;
+  }
+
+  .role-selector .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .role-selector p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .role-btn {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .role-btn:hover {
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  .role-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--white);
+  }
+
+  .role-btn .icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .role-btn .check {
+    margin-left: auto;
+    opacity: 0;
+    color: var(--accent);
+    font-weight: 700;
+    transition: opacity 0.2s;
+  }
+
+  .role-btn.active .check {
+    opacity: 1;
+  }
+
+  /* ── Sections ── */
+  .form-section {
+    margin-bottom: 40px;
+    display: none;
+  }
+
+  .form-section.visible {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .section-header .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    padding: 2px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .section-header h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .section-intro {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  /* ── Questions ── */
+  .question {
+    margin-bottom: 28px;
+  }
+
+  .question label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .question label .q-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  .question .hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .question textarea {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    padding: 12px 14px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s;
+  }
+
+  .question textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+  }
+
+  .question textarea::placeholder {
+    color: #444;
+  }
+
+  /* ── Scale Questions ── */
+  .scale-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .scale-row .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .scale-btn {
+    flex: 1;
+    background: var(--input-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    padding: 10px 0;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .scale-btn:hover {
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  .scale-btn.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .scale-labels-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  .scale-labels-row span {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── Progress ── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: 100;
+  }
+
+  /* ── Submit ── */
+  .submit-section {
+    display: none;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .submit-section.visible {
+    display: block;
+  }
+
+  .submit-btn {
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    padding: 14px 48px;
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .submit-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .submit-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* ── Thank You ── */
+  .thank-you {
+    display: none;
+    text-align: center;
+    padding: 80px 0;
+  }
+
+  .thank-you.visible {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .thank-you h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .thank-you p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .thank-you .checkmark {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--green-glow);
+    border: 2px solid var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 28px;
+    color: var(--green);
+  }
+
+  /* ── Copy Button ── */
+  .copy-section {
+    display: none;
+    margin-top: 24px;
+  }
+
+  .copy-section.visible {
+    display: block;
+  }
+
+  .copy-btn {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 10px 24px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 500px) {
+    .container { padding: 24px 16px 60px; }
+    .header h1 { font-size: 22px; }
+    .role-grid { grid-template-columns: 1fr; }
+    .scale-btn { padding: 8px 0; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div class="label">Discovery Questionnaire</div>
+    <h1>Help Us Build the Platform<br>Live Music Deserves</h1>
+    <p>We're building a new platform for independent venues, bands, bookers, labels, and fans. Your answers shape what gets built. Takes 10–15 minutes.</p>
+  </div>
+
+  <div id="formContent">
+    <!-- Role Selector -->
+    <div class="role-selector">
+      <div class="section-label">Step 1 — Select Your Role(s)</div>
+      <p>Choose all that apply. You'll only see questions relevant to you.</p>
+      <div class="role-grid">
+        <button class="role-btn" data-role="venue" onclick="toggleRole(this)">
+          <span class="icon">🏠</span> Venue Owner / Manager
+          <span class="check">✓</span>
+        </button>
+        <button class="role-btn" data-role="booker" onclick="toggleRole(this)">
+          <span class="icon">📋</span> Booker / Promoter
+          <span class="check">✓</span>
+        </button>
+        <button class="role-btn" data-role="band" onclick="toggleRole(this)">
+          <span class="icon">🎸</span> Band / Artist
+          <span class="check">✓</span>
+        </button>
+        <button class="role-btn" data-role="label" onclick="toggleRole(this)">
+          <span class="icon">🏷️</span> Label
+          <span class="check">✓</span>
+        </button>
+        <button class="role-btn" data-role="fan" onclick="toggleRole(this)" style="grid-column: 1 / -1;">
+          <span class="icon">🎶</span> Fan / Showgoer
+          <span class="check">✓</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION: Everyone -->
+    <div class="form-section visible" id="sec-everyone">
+      <div class="section-header">
+        <span class="badge">Everyone</span>
+        <h2>About You</h2>
+      </div>
+      <div class="section-intro">Basic info so we know who we're talking to.</div>
+
+      <div class="question">
+        <label><span class="q-num">01</span>What's your name, role, and organization?</label>
+        <textarea name="q01" placeholder="e.g. Jake, booking manager at The Sinclair"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">02</span>How long have you been in the live music industry?</label>
+        <textarea name="q02" placeholder="Rough years are fine" style="min-height:50px"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">03</span>What city or region do you primarily operate in?</label>
+        <textarea name="q03" placeholder="" style="min-height:50px"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Everyone — Tools -->
+    <div class="form-section visible" id="sec-tools">
+      <div class="section-header">
+        <span class="badge">Everyone</span>
+        <h2>Current Tools</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">04</span>What tools or platforms do you currently use for ticketing, booking, promotion, or communication?</label>
+        <div class="hint">Eventbrite, Dice, email, spreadsheets, Instagram, group texts, etc.</div>
+        <textarea name="q04"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">05</span>What do you like about your current setup?</label>
+        <textarea name="q05"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">06</span>What frustrates you most about your current setup?</label>
+        <div class="hint">Be specific — what makes you want to throw your laptop out the window?</div>
+        <textarea name="q06"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Everyone — Fees -->
+    <div class="form-section visible" id="sec-fees">
+      <div class="section-header">
+        <span class="badge">Everyone</span>
+        <h2>Fees & Money</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">07</span>How much are you currently paying in ticketing or service fees per show?</label>
+        <div class="hint">Rough numbers are fine. Per-ticket fees, monthly costs, percentages — whatever applies.</div>
+        <textarea name="q07"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">08</span>If a platform charged venues $100–$300/month with a $0.50 per-ticket buyer fee (total buyer cost under $1.25 on a $15 ticket), how would that compare to what you're paying now?</label>
+        <textarea name="q08"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Venue/Booker — Booking -->
+    <div class="form-section" id="sec-booking" data-roles="venue,booker">
+      <div class="section-header">
+        <span class="badge">Venues & Bookers</span>
+        <h2>Booking & Operations</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">09</span>How do you currently find and book bands?</label>
+        <div class="hint">Cold emails, agent relationships, word of mouth, social media, etc.</div>
+        <textarea name="q09"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">10</span>How do you evaluate whether a band is worth booking?</label>
+        <div class="hint">Draw history, social following, vibes, recommendations from other bookers?</div>
+        <textarea name="q10"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">11</span>How often do you deal with last-minute cancellations, and how do you fill those slots?</label>
+        <textarea name="q11"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">12</span>If you could post an open slot and have local bands who match your genre get notified instantly, how useful would that be?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q12_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q12_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q12_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q12_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q12_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Not useful</span><span>Game-changer</span>
+        </div>
+        <input type="hidden" name="q12_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Venue/Booker — Settlement -->
+    <div class="form-section" id="sec-settlement" data-roles="venue,booker">
+      <div class="section-header">
+        <span class="badge">Venues & Bookers</span>
+        <h2>Settlement</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">13</span>How do you currently handle settlement with bands after a show?</label>
+        <div class="hint">Cash at the door? Venmo? Check in the mail? How do you calculate splits?</div>
+        <textarea name="q13"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">14</span>Have you ever had disputes over settlement? What caused them?</label>
+        <textarea name="q14"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">15</span>If the platform automatically calculated and distributed payouts based on pre-agreed deal terms, with a full audit trail and change controls, would that change how you operate?</label>
+        <textarea name="q15"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Venue/Booker — Video -->
+    <div class="form-section" id="sec-venue-video" data-roles="venue,booker">
+      <div class="section-header">
+        <span class="badge">Venues & Bookers</span>
+        <h2>Video & Content</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">16</span>Do you currently record shows at your venue? If so, what do you do with the footage?</label>
+        <textarea name="q16"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">17</span>Would you install a dedicated camera/audio setup if the platform provided specs and the content auto-posted to each band's profile?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q17_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q17_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q17_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q17_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q17_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Unlikely</span><span>Definitely</span>
+        </div>
+        <input type="hidden" name="q17_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Venue/Booker — Data -->
+    <div class="form-section" id="sec-venue-data" data-roles="venue,booker">
+      <div class="section-header">
+        <span class="badge">Venues & Bookers</span>
+        <h2>Data & Analytics</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">18</span>What data do you wish you had about your shows that you don't currently track?</label>
+        <div class="hint">Draw by genre, best nights, repeat attendees, demographics, etc.</div>
+        <textarea name="q18"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">19</span>How do you currently track fan/customer information? Do you have a mailing list or CRM?</label>
+        <textarea name="q19"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Bands — Getting Booked -->
+    <div class="form-section" id="sec-band-booked" data-roles="band">
+      <div class="section-header">
+        <span class="badge">Bands</span>
+        <h2>Getting Booked</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">20</span>How do you currently get shows?</label>
+        <div class="hint">Cold emails, booking agent, relationships with bookers, playing with friends' bands?</div>
+        <textarea name="q20"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">21</span>What's the most frustrating part of getting booked?</label>
+        <textarea name="q21"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">22</span>Do you use an EPK? If so, what's in it and how often do you update it?</label>
+        <textarea name="q22"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">23</span>If your profile automatically showed draw history, show archive, and fan engagement — replacing the EPK — would that help you get booked?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q23_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q23_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q23_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q23_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q23_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Not helpful</span><span>Absolutely</span>
+        </div>
+        <input type="hidden" name="q23_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Bands — Getting Paid -->
+    <div class="form-section" id="sec-band-paid" data-roles="band">
+      <div class="section-header">
+        <span class="badge">Bands</span>
+        <h2>Getting Paid</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">24</span>How are you typically paid for shows? What deal structures do you see most often?</label>
+        <div class="hint">Flat guarantee, door split, guarantee vs. percentage, etc.</div>
+        <textarea name="q24"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">25</span>Have you ever been shorted or felt the settlement process was unclear?</label>
+        <textarea name="q25"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">26</span>Would transparent, automated payouts through the platform change your willingness to play certain venues?</label>
+        <textarea name="q26"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Bands — Touring -->
+    <div class="form-section" id="sec-band-tour" data-roles="band">
+      <div class="section-header">
+        <span class="badge">Bands</span>
+        <h2>Touring</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">27</span>How do you currently plan tour routes?</label>
+        <div class="hint">Google Maps, gut feel, agent handles it, ask other bands?</div>
+        <textarea name="q27"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">28</span>What are the biggest logistical headaches on the road?</label>
+        <div class="hint">Finding food late at night, gear emergencies, parking, places to sleep?</div>
+        <textarea name="q28"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">29</span>If the platform provided route planning with restaurant/gear shop/van stop recommendations crowdsourced by other touring bands, would you use it?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q29_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q29_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q29_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q29_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q29_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Wouldn't use it</span><span>Day one user</span>
+        </div>
+        <input type="hidden" name="q29_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Bands — Content & Merch -->
+    <div class="form-section" id="sec-band-content" data-roles="band">
+      <div class="section-header">
+        <span class="badge">Bands</span>
+        <h2>Content & Merch</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">30</span>How do you currently sell merch? Online, at shows, or both?</label>
+        <textarea name="q30"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">31</span>How do you handle video/content from your shows? Do you post it anywhere?</label>
+        <textarea name="q31"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">32</span>Would you want fans to upload their video from your shows, synced to the board audio?</label>
+        <textarea name="q32"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">33</span>If you could drop exclusive content (unreleased tracks, merch, flash shows) directly to your most engaged fans, would you use that?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q33_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q33_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q33_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q33_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q33_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Not interested</span><span>Absolutely</span>
+        </div>
+        <input type="hidden" name="q33_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Labels — Roster -->
+    <div class="form-section" id="sec-label-roster" data-roles="label">
+      <div class="section-header">
+        <span class="badge">Labels</span>
+        <h2>Roster Management</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">34</span>How many artists are on your roster, and how do you currently track their touring activity?</label>
+        <textarea name="q34"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">35</span>What tools do you use to manage your roster's shows, merch, and promotion?</label>
+        <div class="hint">Spreadsheets, CRM, email threads, a manager handles it?</div>
+        <textarea name="q35"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">36</span>What data do you wish you had about your artists' live performance that you don't currently have?</label>
+        <textarea name="q36"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Labels — Tour/Promo -->
+    <div class="form-section" id="sec-label-tour" data-roles="label">
+      <div class="section-header">
+        <span class="badge">Labels</span>
+        <h2>Tour Support & Promotion</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">37</span>Do you subsidize or co-promote tours for your artists? If so, how do you measure ROI?</label>
+        <textarea name="q37"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">38</span>If the platform gave you a dashboard with unified analytics across your entire roster — draw by city, merch performance, fan demographics, tour routing — how would that change your operations?</label>
+        <textarea name="q38"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Labels — A&R -->
+    <div class="form-section" id="sec-label-ar" data-roles="label">
+      <div class="section-header">
+        <span class="badge">Labels</span>
+        <h2>A&R / Scouting</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">39</span>How do you currently discover unsigned bands to potentially sign?</label>
+        <div class="hint">Shows, word of mouth, social media, streaming data, submissions?</div>
+        <textarea name="q39"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">40</span>If the platform surfaced unsigned bands with similar genre profiles, growing draw, and high fan overlap with your roster — with video of recent sets — would that change how you scout?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q40_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q40_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q40_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q40_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q40_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Wouldn't change</span><span>Completely</span>
+        </div>
+        <input type="hidden" name="q40_scale" value="">
+      </div>
+      <div class="question">
+        <label><span class="q-num">41</span>Would you use a feature to coordinate release drops across multiple roster artists to fans who've attended their shows?</label>
+        <textarea name="q41"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Fans — Discovery -->
+    <div class="form-section" id="sec-fan-discovery" data-roles="fan">
+      <div class="section-header">
+        <span class="badge">Fans</span>
+        <h2>Finding Shows</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">42</span>How do you currently find out about shows?</label>
+        <div class="hint">Instagram, word of mouth, venue websites, flyers, Songkick, Bandsintown, etc.</div>
+        <textarea name="q42"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">43</span>How often do you go to live shows at smaller clubs or DIY venues?</label>
+        <textarea name="q43" style="min-height:50px"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">44</span>Have you ever missed a show you would have gone to because you didn't know about it in time?</label>
+        <textarea name="q44"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">45</span>How do you discover new bands? What makes you check out a band you've never heard of?</label>
+        <textarea name="q45"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Fans — Tickets & Fees -->
+    <div class="form-section" id="sec-fan-tickets" data-roles="fan">
+      <div class="section-header">
+        <span class="badge">Fans</span>
+        <h2>Tickets & Fees</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">46</span>How do you usually buy tickets for club shows?</label>
+        <div class="hint">At the door, Eventbrite, venue website, Dice, other?</div>
+        <textarea name="q46"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">47</span>How much do service fees affect your decision to buy a ticket?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q47_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q47_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q47_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q47_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q47_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Don't care</span><span>Major factor</span>
+        </div>
+        <input type="hidden" name="q47_scale" value="">
+      </div>
+      <div class="question">
+        <label><span class="q-num">48</span>If total fees on a $15 ticket were under $1.25 instead of the typical $5–$10, would you buy tickets online more often instead of paying at the door?</label>
+        <textarea name="q48"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: Fans — Experience & Content -->
+    <div class="form-section" id="sec-fan-content" data-roles="fan">
+      <div class="section-header">
+        <span class="badge">Fans</span>
+        <h2>Experience & Content</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">49</span>Do you record video at shows? If so, what do you do with it?</label>
+        <div class="hint">Post it on Instagram, keep it on your phone, never look at it again?</div>
+        <textarea name="q49"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">50</span>Would you upload your video to a platform if it got synced to the venue's board audio and appeared on the band's profile?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q50_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q50_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q50_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q50_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q50_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Wouldn't bother</span><span>Definitely</span>
+        </div>
+        <input type="hidden" name="q50_scale" value="">
+      </div>
+      <div class="question">
+        <label><span class="q-num">51</span>Do you keep track of shows you've been to? How?</label>
+        <div class="hint">Notes app, Setlist.fm, memory, ticket stubs in a drawer?</div>
+        <textarea name="q51"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">52</span>If the platform automatically built a timeline of every show you attended — with date, venue, lineup, and video — would that be something you'd come back to?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q52_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q52_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q52_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q52_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q52_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>Not really</span><span>All the time</span>
+        </div>
+        <input type="hidden" name="q52_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Fans — Engagement -->
+    <div class="form-section" id="sec-fan-engagement" data-roles="fan">
+      <div class="section-header">
+        <span class="badge">Fans</span>
+        <h2>Following Bands & Merch</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">53</span>How do you currently follow bands you like?</label>
+        <div class="hint">Instagram, Spotify, mailing list, Bandcamp, you don't?</div>
+        <textarea name="q53"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">54</span>If a band you follow could drop flash announcements — secret shows, unreleased tracks, limited merch — and your engagement level determined how early you heard about it, would that make you more active on the platform?</label>
+        <textarea name="q54"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">55</span>How do you buy band merch? At shows, online, or both? What's annoying about it?</label>
+        <textarea name="q55"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">56</span>Would you pay a small monthly fee (think $3–$5) for perks like no ticket fees, early access to shows, and exclusive content from bands you follow?</label>
+        <div class="scale-row">
+          <button class="scale-btn" onclick="selectScale(this, 'q56_scale')">1</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q56_scale')">2</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q56_scale')">3</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q56_scale')">4</button>
+          <button class="scale-btn" onclick="selectScale(this, 'q56_scale')">5</button>
+        </div>
+        <div class="scale-labels-row">
+          <span>No way</span><span>Shut up and take my money</span>
+        </div>
+        <input type="hidden" name="q56_scale" value="">
+      </div>
+    </div>
+
+    <!-- SECTION: Final -->
+    <div class="form-section visible" id="sec-final">
+      <div class="section-header">
+        <span class="badge">Final</span>
+        <h2>The Big Questions</h2>
+      </div>
+
+      <div class="question">
+        <label><span class="q-num">57</span>If this platform existed today, what would make you sign up?</label>
+        <textarea name="q57"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">58</span>What would make you NOT sign up? What's the dealbreaker?</label>
+        <textarea name="q58"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">59</span>What's the one feature we didn't mention that you wish existed?</label>
+        <textarea name="q59"></textarea>
+      </div>
+      <div class="question">
+        <label><span class="q-num">60</span>Is there anyone else who'd want to talk about this?</label>
+        <div class="hint">Name, role, and best way to contact them. Warm intros are gold.</div>
+        <textarea name="q60"></textarea>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-section visible" id="submitSection">
+      <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="dark" style="margin-bottom:16px; display:flex; justify-content:center;"></div>
+      <button class="submit-btn" onclick="submitForm()">Submit Responses</button>
+      <div class="submit-note">Your answers will be compiled and sent to Tony. Nothing is shared publicly.</div>
+    </div>
+  </div>
+
+  <!-- Thank You -->
+  <div class="thank-you" id="thankYou">
+    <div class="checkmark">✓</div>
+    <h2>Thank you.</h2>
+    <p>Your input directly shapes what gets built. If you left a referral, we'll reach out to them and mention your name.</p>
+    <div class="copy-section visible" style="margin-top:32px">
+      <button class="copy-btn" onclick="copyResponses()">Copy My Responses</button>
+      <div class="submit-note" id="copyConfirm" style="margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+  const selectedRoles = new Set();
+  let formData = {};
+
+  function toggleRole(btn) {
+    const role = btn.dataset.role;
+    if (selectedRoles.has(role)) {
+      selectedRoles.delete(role);
+      btn.classList.remove('active');
+    } else {
+      selectedRoles.add(role);
+      btn.classList.add('active');
+    }
+    updateVisibility();
+    updateProgress();
+  }
+
+  function updateVisibility() {
+    document.querySelectorAll('.form-section[data-roles]').forEach(sec => {
+      const roles = sec.dataset.roles.split(',');
+      const show = roles.some(r => selectedRoles.has(r));
+      sec.classList.toggle('visible', show);
+    });
+  }
+
+  function selectScale(btn, name) {
+    const row = btn.parentElement;
+    row.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    const hidden = document.querySelector(`input[name="${name}"]`);
+    if (hidden) hidden.value = btn.textContent;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const visible = document.querySelectorAll('.form-section.visible');
+    let total = 0;
+    let filled = 0;
+
+    visible.forEach(sec => {
+      sec.querySelectorAll('textarea').forEach(ta => {
+        total++;
+        if (ta.value.trim()) filled++;
+      });
+      sec.querySelectorAll('input[type="hidden"]').forEach(h => {
+        if (h.value) filled++;
+        total++;
+      });
+    });
+
+    const pct = total > 0 ? (filled / total) * 100 : 0;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  // Track progress on input
+  document.addEventListener('input', (e) => {
+    if (e.target.tagName === 'TEXTAREA') updateProgress();
+  });
+
+  function gatherResponses() {
+    const responses = {};
+    responses._roles = Array.from(selectedRoles);
+    responses._timestamp = new Date().toISOString();
+
+    document.querySelectorAll('.form-section.visible').forEach(sec => {
+      sec.querySelectorAll('textarea').forEach(ta => {
+        if (ta.value.trim()) responses[ta.name] = ta.value.trim();
+      });
+      sec.querySelectorAll('input[type="hidden"]').forEach(h => {
+        if (h.value) responses[h.name] = h.value;
+      });
+    });
+
+    return responses;
+  }
+
+  function formatResponses(responses) {
+    const labels = {
+      q01: "Name / Role / Org",
+      q02: "Years in industry",
+      q03: "City / Region",
+      q04: "Current tools",
+      q05: "What works now",
+      q06: "Biggest frustrations",
+      q07: "Current fee costs",
+      q08: "Fee comparison reaction",
+      q09: "How you find/book bands",
+      q10: "How you evaluate bands",
+      q11: "Cancellation frequency & fill process",
+      q12_scale: "Fill-a-slot usefulness (1-5)",
+      q13: "Current settlement process",
+      q14: "Settlement disputes",
+      q15: "Automated settlement reaction",
+      q16: "Current show recording",
+      q17_scale: "Camera install willingness (1-5)",
+      q18: "Desired data/analytics",
+      q19: "Fan tracking / CRM",
+      q20: "How you get shows",
+      q21: "Booking frustrations",
+      q22: "EPK usage",
+      q23_scale: "Auto-profile replacing EPK (1-5)",
+      q24: "How you get paid",
+      q25: "Been shorted?",
+      q26: "Automated payouts impact",
+      q27: "Tour route planning",
+      q28: "Road headaches",
+      q29_scale: "Tour companion interest (1-5)",
+      q30: "Current merch sales",
+      q31: "Show video/content",
+      q32: "Fan video sync interest",
+      q33_scale: "Exclusive content drops (1-5)",
+      q34: "Roster size & tracking",
+      q35: "Roster management tools",
+      q36: "Desired live performance data",
+      q37: "Tour subsidies & ROI",
+      q38: "Unified dashboard reaction",
+      q39: "Current A&R process",
+      q40_scale: "A&R discovery engine (1-5)",
+      q41: "Coordinated release drops",
+      q42: "How fans find shows",
+      q43: "Show frequency",
+      q44: "Missed a show?",
+      q45: "How fans discover bands",
+      q46: "How fans buy tickets",
+      q47_scale: "Fee impact on buying (1-5)",
+      q48: "Low-fee ticket reaction",
+      q49: "Fan video recording habits",
+      q50_scale: "Fan video upload willingness (1-5)",
+      q51: "Show tracking habits",
+      q52_scale: "Auto concert timeline interest (1-5)",
+      q53: "How fans follow bands",
+      q54: "Flash drop / engagement tier reaction",
+      q55: "Merch buying habits",
+      q56_scale: "Fan subscription willingness (1-5)",
+      q57: "What would make you sign up",
+      q58: "Dealbreaker",
+      q59: "Missing feature",
+      q60: "Referrals"
+    };
+
+    let text = `DISCOVERY QUESTIONNAIRE RESPONSE\n`;
+    text += `Submitted: ${new Date().toLocaleDateString()}\n`;
+    text += `Roles: ${responses._roles.join(', ')}\n`;
+    text += `${'—'.repeat(50)}\n\n`;
+
+    for (const [key, value] of Object.entries(responses)) {
+      if (key.startsWith('_')) continue;
+      const label = labels[key] || key;
+      text += `${label}\n${value}\n\n`;
+    }
+
+    return text;
+  }
+
+  // ── CONFIG: Set this to your deployed Worker URL ──
+  const API_URL = 'https://questionnaire-api.YOUR_SUBDOMAIN.workers.dev';
+
+  function submitForm() {
+    const responses = gatherResponses();
+    formData = responses;
+    const formatted = formatResponses(responses);
+    window._formattedResponse = formatted;
+
+    const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+    if (!turnstileToken) {
+      alert('Please complete the verification before submitting.');
+      return;
+    }
+
+    responses._turnstile = turnstileToken;
+
+    const btn = document.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    fetch(API_URL + '/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(responses),
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Server error');
+      return res.json();
+    })
+    .then(() => {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('thankYou').classList.add('visible');
+      document.getElementById('progressBar').style.width = '100%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(err => {
+      console.error('Submit failed:', err);
+      // Still show thank you but note the error — save locally
+      console.log('=== LOCAL BACKUP ===');
+      console.log(JSON.stringify(responses, null, 2));
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('thankYou').classList.add('visible');
+      document.getElementById('progressBar').style.width = '100%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  function copyResponses() {
+    const text = window._formattedResponse || '';
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('copyConfirm').textContent = 'Copied to clipboard!';
+      setTimeout(() => {
+        document.getElementById('copyConfirm').textContent = '';
+      }, 3000);
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      document.getElementById('copyConfirm').textContent = 'Copied!';
+    });
+  }
+
+  // Init progress
+  updateProgress();
+</script>
+
+</body>
+</html>

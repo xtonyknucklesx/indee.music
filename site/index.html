@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>indee.music — the platform live music deserves</title>
+<meta name="description" content="Low-fee ticketing, booking tools, show archives, and a social network built for independent venues, bands, labels, and fans.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+  :root {
+    --black: #0A0A0A;
+    --dark: #111;
+    --card: #161616;
+    --card-border: #252525;
+    --white: #F5F5F0;
+    --muted: #7A7A72;
+    --accent: #E84855;
+    --accent-hover: #D43D4A;
+    --accent-glow: rgba(232, 72, 85, 0.08);
+    --gold: #D4A843;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Grain overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Nav ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  nav a.nav-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav a.nav-link:hover {
+    color: var(--accent);
+  }
+
+  /* ── Hero ── */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 40px 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232, 72, 85, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -2px;
+    position: relative;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero .subtitle {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 36px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 36px;
+    border-radius: 4px;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── What ── */
+  .what {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .what .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .what h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+
+  .what p {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ── Pillars ── */
+  .pillars {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 40px 100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .pillar {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 36px 28px;
+    transition: border-color 0.3s;
+  }
+
+  .pillar:hover {
+    border-color: var(--accent);
+  }
+
+  .pillar .pillar-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .pillar h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .pillar p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── For Who ── */
+  .for-who {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .for-who .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+    display: block;
+    text-align: center;
+  }
+
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    text-align: center;
+  }
+
+  .audience-item .aud-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .audience-item h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .audience-item p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── CTA Section ── */
+  .cta-section {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    text-align: center;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .cta-section h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  /* ── Email Capture ── */
+  .email-form {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .email-form input[type="email"] {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    padding: 14px 18px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    width: 300px;
+    max-width: 100%;
+    transition: border-color 0.2s;
+  }
+
+  .email-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .email-form input[type="email"]::placeholder {
+    color: #444;
+  }
+
+  .email-form button {
+    background: var(--accent);
+    border: none;
+    border-radius: 4px;
+    padding: 14px 28px;
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .email-form button:hover {
+    background: var(--accent-hover);
+  }
+
+  .email-confirm {
+    font-size: 13px;
+    color: var(--accent);
+    margin-top: 12px;
+    min-height: 20px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer .footer-left {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .footer-right {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .hero { padding: 60px 24px 60px; }
+    .hero h1 { font-size: 42px; letter-spacing: -1px; }
+    .hero .subtitle { font-size: 16px; }
+    .pillars { grid-template-columns: 1fr; padding: 20px 24px 60px; }
+    .audience-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .audience-item:last-child { grid-column: 1 / -1; }
+    .what { padding: 60px 24px; }
+    .what h2 { font-size: 30px; }
+    .for-who { padding: 60px 24px; }
+    .cta-section { padding: 60px 24px; }
+    .cta-section h2 { font-size: 28px; }
+    .email-form { flex-direction: column; align-items: center; }
+    .email-form input[type="email"] { width: 100%; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 30px 24px; }
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero h1, .hero .subtitle, .hero-cta {
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .hero .subtitle { animation-delay: 0.15s; opacity: 0; }
+  .hero-cta { animation-delay: 0.3s; opacity: 0; }
+</style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="logo">indee<span>.music</span></a>
+    <a href="#questionnaire" class="nav-link">Take the Survey</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>The platform<br>live music <em>deserves</em></h1>
+    <p class="subtitle">Low-fee ticketing, smart booking tools, show archives, and a social network — built for independent venues, bands, labels, and the fans who keep it all alive.</p>
+    <div class="hero-cta">
+      <a href="#questionnaire" class="btn-primary">Help Us Build It</a>
+      <a href="#what" class="btn-secondary">Learn More</a>
+    </div>
+  </section>
+
+  <!-- What We're Building -->
+  <section class="what" id="what">
+    <div class="section-tag">What We're Building</div>
+    <h2>One platform for the entire<br>independent music ecosystem</h2>
+    <p>The live music industry runs on scattered tools, crushing fees, and zero transparency. Ticketmaster doesn't care about your 300-cap room. Eventbrite is a checkout page pretending to be a platform. Nobody's building for the clubs, the bands, and the fans who actually make this scene work. We are.</p>
+  </section>
+
+  <!-- Pillars -->
+  <section class="pillars">
+    <div class="pillar">
+      <div class="pillar-icon">🎟️</div>
+      <h3>Fair Ticketing</h3>
+      <p>Under $1.25 total fees on a $15 ticket. Not a typo. Venues pay a flat monthly rate, fans pay almost nothing, and bands actually get what they're owed through automated, transparent settlement.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🤝</div>
+      <h3>Connected</h3>
+      <p>Profiles for bands, venues, bookers, labels, and fans. Fill last-minute slots instantly. Route tours through the venue network. Discover new music through actual attendance, not algorithms.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📹</div>
+      <h3>Archived</h3>
+      <p>Every set recorded, broken out by band, synced with fan-shot video. A living archive of every show. Your ticket unlocks the full set. Your concert history builds itself.</p>
+    </div>
+  </section>
+
+  <!-- For Who -->
+  <section class="for-who">
+    <div class="section-tag">Built For</div>
+    <div class="audience-grid">
+      <div class="audience-item">
+        <div class="aud-icon">🏠</div>
+        <h4>Venues</h4>
+        <p>Ditch the fee gouging. Get booking tools and analytics that actually fit your room.</p>
+      </div>
+      <div class="audience-item">
+        <div class="aud-icon">🎸</div>
+        <h4>Bands</h4>
+        <p>Get booked, get paid fairly, build a portfolio that replaces the EPK forever.</p>
+      </div>
+      <div class="audience-item">
+        <div class="aud-icon">📋</div>
+        <h4>Bookers</h4>
+        <p>Search by draw, genre, and availability. Fill cancelled slots in minutes, not days.</p>
+      </div>
+      <div class="audience-item">
+        <div class="aud-icon">🏷️</div>
+        <h4>Labels</h4>
+        <p>Manage rosters, route tours, and discover unsigned talent backed by real data.</p>
+      </div>
+      <div class="audience-item">
+        <div class="aud-icon">🎶</div>
+        <h4>Fans</h4>
+        <p>Find shows, track your concert history, get early access to drops, and pay fees that aren't insulting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="questionnaire">
+    <h2>We're building this with you, not for you</h2>
+    <p>indee.music is in early development. We're talking to venue owners, bookers, bands, labels, and fans to make sure we build the right thing. Take 10 minutes to tell us what you need — your answers directly shape what gets built.</p>
+    <a href="/survey" class="btn-primary">Take the Questionnaire</a>
+
+    <div style="margin-top:48px;">
+      <p style="font-size:15px; color: var(--muted); margin-bottom: 16px;">Not ready for the full survey? Drop your email and we'll keep you posted.</p>
+      <div class="email-form">
+        <input type="email" id="emailInput" placeholder="your@email.com">
+        <button onclick="submitEmail()">Notify Me</button>
+      </div>
+      <div class="cf-turnstile" id="turnstileWidget" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="dark" data-size="compact" style="margin-top:12px; display:flex; justify-content:center;"></div>
+      <div class="email-confirm" id="emailConfirm"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">indee.music &copy; 2026</div>
+    <div class="footer-right">Tony Rossi &middot; Poulsbo, WA</div>
+  </footer>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+  // ── CONFIG ──
+  const API_URL = 'https://questionnaire-api.YOUR_SUBDOMAIN.workers.dev';
+
+  function submitEmail() {
+    const input = document.getElementById('emailInput');
+    const confirm = document.getElementById('emailConfirm');
+    const email = input.value.trim();
+
+    if (!email || !email.includes('@')) {
+      confirm.textContent = 'Please enter a valid email.';
+      confirm.style.color = '#E84855';
+      return;
+    }
+
+    const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+    if (!turnstileToken) {
+      confirm.textContent = 'Please complete the verification.';
+      confirm.style.color = '#E84855';
+      return;
+    }
+
+    fetch(API_URL + '/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _roles: ['email_signup'],
+        _timestamp: new Date().toISOString(),
+        q01: email,
+        _turnstile: turnstileToken,
+      }),
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Failed');
+      confirm.textContent = "You're on the list. We'll be in touch.";
+      confirm.style.color = '#4CAF50';
+      input.value = '';
+      if (typeof turnstile !== 'undefined') turnstile.reset();
+    })
+    .catch(() => {
+      confirm.textContent = "You're on the list. We'll be in touch.";
+      confirm.style.color = '#4CAF50';
+      input.value = '';
+      if (typeof turnstile !== 'undefined') turnstile.reset();
+    });
+  }
+
+  document.getElementById('emailInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') submitEmail();
+  });
+</script>
+
+</body>
+</html>

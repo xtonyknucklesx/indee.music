@@ -1,0 +1,17 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "questionnaire-api"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+# ── D1 Database ──
+# 1. Run: npx wrangler d1 create questionnaire-db
+# 2. Paste the database_id below
+[[d1_databases]]
+binding = "DB"
+database_name = "questionnaire-db"
+database_id = "YOUR_DATABASE_ID_HERE"
+
+# ── Secrets (set via CLI, not committed) ──
+# npx wrangler secret put ADMIN_TOKEN
+# npx wrangler secret put IP_SALT
+# npx wrangler secret put TURNSTILE_SECRET

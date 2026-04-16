@@ -1011,6 +1011,7 @@
       <div class="cf-turnstile" data-sitekey="0x4AAAAAAC-HiAMoMQbATz35" data-theme="dark" style="margin-bottom:16px; display:flex; justify-content:center;"></div>
       <button class="submit-btn" onclick="submitForm()">Submit Responses</button>
       <div class="submit-note">Your answers will be compiled and sent to Tony. Nothing is shared publicly.</div>
+      <div class="submit-note" id="submitError" style="color:#E84855; margin-top:8px; display:none;"></div>
     </div>
   </div>
 
@@ -1199,8 +1200,13 @@
     responses._turnstile = turnstileToken;
 
     const btn = document.querySelector('.submit-btn');
+    const errEl = document.getElementById('submitError');
+    errEl.style.display = 'none';
+    errEl.textContent = '';
     btn.disabled = true;
     btn.textContent = 'Submitting...';
+
+    try { sessionStorage.setItem('indee_survey_draft', JSON.stringify(responses)); } catch {}
 
     fetch(API_URL + '/api/submit', {
       method: 'POST',
@@ -1212,20 +1218,18 @@
       return res.json();
     })
     .then(() => {
+      try { sessionStorage.removeItem('indee_survey_draft'); } catch {}
       document.getElementById('formContent').style.display = 'none';
       document.getElementById('thankYou').classList.add('visible');
       document.getElementById('progressBar').style.width = '100%';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     })
-    .catch(err => {
-      console.error('Submit failed:', err);
-      // Still show thank you but note the error — save locally
-      console.log('=== LOCAL BACKUP ===');
-      console.log(JSON.stringify(responses, null, 2));
-      document.getElementById('formContent').style.display = 'none';
-      document.getElementById('thankYou').classList.add('visible');
-      document.getElementById('progressBar').style.width = '100%';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Submit Responses';
+      errEl.textContent = "Something went wrong. Please try again — your answers are saved on this device.";
+      errEl.style.display = 'block';
+      if (typeof turnstile !== 'undefined') turnstile.reset();
     });
   }
 

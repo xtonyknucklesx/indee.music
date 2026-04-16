@@ -538,12 +538,14 @@
   // ── CONFIG ──
   const API_URL = 'https://questionnaire-api.anthony-rossi1983.workers.dev';
 
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   function submitEmail() {
     const input = document.getElementById('emailInput');
     const confirm = document.getElementById('emailConfirm');
     const email = input.value.trim();
 
-    if (!email || !email.includes('@')) {
+    if (!EMAIL_RE.test(email) || email.length > 254) {
       confirm.textContent = 'Please enter a valid email.';
       confirm.style.color = '#E84855';
       return;
@@ -561,7 +563,6 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         _roles: ['email_signup'],
-        _timestamp: new Date().toISOString(),
         q01: email,
         _turnstile: turnstileToken,
       }),
@@ -574,9 +575,8 @@
       if (typeof turnstile !== 'undefined') turnstile.reset();
     })
     .catch(() => {
-      confirm.textContent = "You're on the list. We'll be in touch.";
-      confirm.style.color = '#4CAF50';
-      input.value = '';
+      confirm.textContent = "Something went wrong. Please try again.";
+      confirm.style.color = '#E84855';
       if (typeof turnstile !== 'undefined') turnstile.reset();
     });
   }

@@ -38,6 +38,23 @@
     padding: 40px 24px 80px;
   }
 
+  /* ── Back link ── */
+  .back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+  .back-home:hover { color: var(--accent); }
+  .back-home::before { content: '←'; font-size: 14px; }
+
   /* ── Header ── */
   .header {
     text-align: center;
@@ -439,6 +456,8 @@
 <div class="progress-bar" id="progressBar"></div>
 
 <div class="container">
+  <a href="/" class="back-home">Back to indee.music</a>
+
   <!-- Header -->
   <div class="header">
     <div class="label">Discovery Questionnaire</div>
@@ -1024,6 +1043,9 @@
       <button class="copy-btn" onclick="copyResponses()">Copy My Responses</button>
       <div class="submit-note" id="copyConfirm" style="margin-top:8px"></div>
     </div>
+    <p class="submit-note" style="margin-top:32px">
+      Redirecting to <a href="/" style="color:var(--accent)">indee.music</a> in <span id="redirectCount">5</span>…
+    </p>
   </div>
 </div>
 
@@ -1223,6 +1245,7 @@
       document.getElementById('thankYou').classList.add('visible');
       document.getElementById('progressBar').style.width = '100%';
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      startRedirect();
     })
     .catch(() => {
       btn.disabled = false;
@@ -1250,6 +1273,21 @@
       document.body.removeChild(ta);
       document.getElementById('copyConfirm').textContent = 'Copied!';
     });
+  }
+
+  function startRedirect() {
+    let remaining = 5;
+    const countEl = document.getElementById('redirectCount');
+    const tick = () => {
+      remaining -= 1;
+      if (countEl) countEl.textContent = String(Math.max(remaining, 0));
+      if (remaining <= 0) {
+        window.location.href = '/';
+      } else {
+        setTimeout(tick, 1000);
+      }
+    };
+    setTimeout(tick, 1000);
   }
 
   // Init progress

@@ -11,5 +11,8 @@
     "db:init": "wrangler d1 execute questionnaire-db --file=./schema.sql",
     "db:stats": "wrangler d1 execute questionnaire-db --command=\"SELECT roles, COUNT(*) as count FROM responses GROUP BY roles\"",
     "db:count": "wrangler d1 execute questionnaire-db --command=\"SELECT COUNT(*) as total FROM responses\""
+  },
+  "devDependencies": {
+    "wrangler": "^4.83.0"
   }
 }

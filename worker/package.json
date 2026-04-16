@@ -2,9 +2,11 @@
   "name": "questionnaire-api",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.js",
     "db:create": "wrangler d1 create questionnaire-db",
     "db:init": "wrangler d1 execute questionnaire-db --file=./schema.sql",
     "db:stats": "wrangler d1 execute questionnaire-db --command=\"SELECT roles, COUNT(*) as count FROM responses GROUP BY roles\"",

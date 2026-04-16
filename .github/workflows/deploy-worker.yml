@@ -21,6 +21,10 @@ jobs:
       - name: Syntax check
         run: node --check worker/src/index.js
 
+      - name: Run tests
+        working-directory: worker
+        run: npm test
+
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:

@@ -1,9 +1,9 @@
-const ALLOWED_ORIGINS = new Set([
+export const ALLOWED_ORIGINS = new Set([
   'https://indee.music',
   'https://www.indee.music',
 ]);
 
-const ALLOWED_ROLES = new Set([
+export const ALLOWED_ROLES = new Set([
   'venue',
   'booker',
   'band',
@@ -50,7 +50,7 @@ function jsonResponse(data, status, cors) {
   return withHeaders(Response.json(data, { status }), cors);
 }
 
-function timingSafeEqual(a, b) {
+export function timingSafeEqual(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
   const aBytes = new TextEncoder().encode(a);
   const bBytes = new TextEncoder().encode(b);
@@ -60,7 +60,7 @@ function timingSafeEqual(a, b) {
   return diff === 0;
 }
 
-function extractBearer(request) {
+export function extractBearer(request) {
   const header = request.headers.get('Authorization') || '';
   const match = header.match(/^Bearer\s+(.+)$/i);
   return match ? match[1].trim() : null;
@@ -83,7 +83,7 @@ function safeParse(json) {
   try { return JSON.parse(json); } catch { return {}; }
 }
 
-function validateAnswers(answers) {
+export function validateAnswers(answers) {
   const cleaned = {};
   for (const [key, value] of Object.entries(answers)) {
     if (typeof key !== 'string' || key.length > 64) continue;
@@ -100,7 +100,7 @@ function validateAnswers(answers) {
   return cleaned;
 }
 
-function escapeCSV(val) {
+export function escapeCSV(val) {
   if (val == null) return '';
   let str = String(val);
   // Mitigate CSV formula injection

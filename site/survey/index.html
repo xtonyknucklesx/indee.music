@@ -3,7 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Music Platform — Discovery Questionnaire</title>
+<title>Discovery Questionnaire — indee.music</title>
+<meta name="description" content="Help shape indee.music — a new platform for independent venues, bands, bookers, labels, and fans. Takes 10–15 minutes.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://indee.music/survey/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://indee.music/survey/">
+<meta property="og:title" content="Help shape the platform live music deserves">
+<meta property="og:description" content="A 10–15 minute survey for venues, bands, bookers, labels, and fans. Your answers directly shape what gets built.">
+<meta property="og:image" content="https://indee.music/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="indee.music">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://indee.music/survey/">
+<meta name="twitter:title" content="Help shape the platform live music deserves">
+<meta name="twitter:description" content="A 10–15 minute survey for venues, bands, bookers, labels, and fans. Your answers directly shape what gets built.">
+<meta name="twitter:image" content="https://indee.music/og.png">
+
+<meta name="theme-color" content="#0A0A0A">
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
@@ -1029,7 +1051,7 @@
     <div class="submit-section visible" id="submitSection">
       <div class="cf-turnstile" data-sitekey="0x4AAAAAAC-HiAMoMQbATz35" data-theme="dark" style="margin-bottom:16px; display:flex; justify-content:center;"></div>
       <button class="submit-btn" onclick="submitForm()">Submit Responses</button>
-      <div class="submit-note">Your answers will be compiled and sent to Tony. Nothing is shared publicly.</div>
+      <div class="submit-note">Your answers will be compiled and sent to Tony. Nothing is shared publicly. See our <a href="/privacy" style="color: var(--accent);">privacy policy</a>.</div>
       <div class="submit-note" id="submitError" style="color:#E84855; margin-top:8px; display:none;"></div>
     </div>
   </div>
@@ -1048,6 +1070,9 @@
     </p>
   </div>
 </div>
+
+<!-- Cloudflare Web Analytics — replace TOKEN with the beacon token from dash.cloudflare.com → Analytics & Logs → Web Analytics -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "REPLACE_WITH_BEACON_TOKEN"}'></script>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>

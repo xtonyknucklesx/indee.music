@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy — indee.music</title>
+<meta name="description" content="How indee.music handles the data you share with us.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://indee.music/privacy/">
+<meta name="theme-color" content="#0A0A0A">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+  :root {
+    --black: #0A0A0A;
+    --card: #161616;
+    --card-border: #252525;
+    --white: #F5F5F0;
+    --muted: #7A7A72;
+    --accent: #E84855;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+  }
+  .back-home:hover { color: var(--accent); }
+  .back-home::before { content: '←'; font-size: 14px; }
+
+  .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-block;
+    border: 1px solid var(--accent);
+    padding: 3px 12px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .updated {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 36px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  p, li {
+    font-size: 15px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  ul { padding-left: 20px; margin-bottom: 12px; }
+
+  a { color: var(--accent); }
+  a:hover { text-decoration: underline; }
+
+  .callout {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin: 24px 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--card-border);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="/" class="back-home">Back to indee.music</a>
+
+  <div class="label">Privacy</div>
+  <h1>What we collect, what we do with it.</h1>
+  <p class="updated">Last updated: April 15, 2026</p>
+
+  <p>indee.music is a pre-launch project. This page explains what happens to any information you share with us through the landing page email form or the discovery questionnaire. It's written in plain English on purpose.</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>Email signups:</strong> the email address you enter on the landing page.</li>
+    <li><strong>Survey responses:</strong> the answers you submit through the discovery questionnaire, which may include your name, city, role, and opinions about live music.</li>
+    <li><strong>A hashed IP address:</strong> we salt and hash your IP so we can throttle abuse without storing the IP itself.</li>
+    <li><strong>A Cloudflare Turnstile token:</strong> used once to verify you're not a bot, then discarded.</li>
+    <li><strong>Aggregate page analytics:</strong> via Cloudflare Web Analytics — cookie-less, no personal identifiers, no cross-site tracking.</li>
+  </ul>
+
+  <h2>What we don't do</h2>
+  <ul>
+    <li>We don't sell, rent, or share your data with third parties.</li>
+    <li>We don't use advertising or tracking cookies.</li>
+    <li>We don't have a newsletter vendor — emails we send come directly from us.</li>
+  </ul>
+
+  <h2>Where it lives</h2>
+  <p>Submissions are stored in a Cloudflare D1 database hosted in the United States. Only Tony (the founder) has access.</p>
+
+  <h2>How we use it</h2>
+  <ul>
+    <li>Email addresses: to send occasional updates about indee.music's progress and launch.</li>
+    <li>Survey responses: to decide what to build first and how it should work. Responses may be quoted anonymously in posts or pitch materials; we will never publish your name, email, or any personally identifying detail without your explicit permission.</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>You can ask us to delete your email and/or survey responses at any time. Just email <a href="mailto:tony@indee.music">tony@indee.music</a> from the address you used and we'll remove them within a few days.</p>
+
+  <div class="callout">
+    <strong>TL;DR</strong> — we collect as little as possible, we don't share it, and you can ask us to delete it at any time.
+  </div>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, we'll update the "last updated" date at the top. Material changes will be mentioned in our next email to signups.</p>
+
+  <h2>Contact</h2>
+  <p>Questions? <a href="mailto:tony@indee.music">tony@indee.music</a>.</p>
+
+  <footer>indee.music &copy; 2026 &middot; Tony Rossi &middot; Poulsbo, WA</footer>
+</div>
+
+</body>
+</html>

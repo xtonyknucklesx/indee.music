@@ -5,6 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>indee.music — the platform live music deserves</title>
 <meta name="description" content="Low-fee ticketing, booking tools, show archives, and a social network built for independent venues, bands, labels, and fans.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://indee.music/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://indee.music/">
+<meta property="og:title" content="indee.music — the platform live music deserves">
+<meta property="og:description" content="Low-fee ticketing, booking tools, show archives, and a social network built for independent venues, bands, labels, and fans.">
+<meta property="og:image" content="https://indee.music/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="indee.music">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://indee.music/">
+<meta name="twitter:title" content="indee.music — the platform live music deserves">
+<meta name="twitter:description" content="Low-fee ticketing, booking tools, show archives, and a social network built for independent venues, bands, labels, and fans.">
+<meta name="twitter:image" content="https://indee.music/og.png">
+
+<meta name="theme-color" content="#0A0A0A">
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
 
@@ -524,14 +545,18 @@
       </div>
       <div class="cf-turnstile" id="turnstileWidget" data-sitekey="0x4AAAAAAC-HiAMoMQbATz35" data-theme="dark" data-size="compact" style="margin-top:12px; display:flex; justify-content:center;"></div>
       <div class="email-confirm" id="emailConfirm"></div>
+      <p style="font-size:12px; color: var(--muted); margin-top: 12px;">By signing up you agree to our <a href="/privacy" style="color: var(--muted); text-decoration: underline;">privacy policy</a>. Unsubscribe anytime.</p>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <div class="footer-left">indee.music &copy; 2026</div>
+    <div class="footer-left">indee.music &copy; 2026 &middot; <a href="/privacy" style="color: var(--muted); text-decoration: none;">Privacy</a></div>
     <div class="footer-right">Tony Rossi &middot; Poulsbo, WA</div>
   </footer>
+
+<!-- Cloudflare Web Analytics — replace TOKEN with the beacon token from dash.cloudflare.com → Analytics & Logs → Web Analytics -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "REPLACE_WITH_BEACON_TOKEN"}'></script>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
